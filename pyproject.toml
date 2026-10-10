@@ -1,0 +1,21 @@
+[project]
+name = "story-voice-studio"
+version = "0.1.0"
+description = "在 Apple Silicon 上录音、克隆声音并生成故事音频的本地工作室"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.34,<1",
+  "python-multipart>=0.0.22",
+  "mlx-audio==0.5.8",
+  "soundfile>=0.13",
+  "sentencepiece>=0.2",
+  "psutil>=7",
+]
+
+[dependency-groups]
+dev = ["pytest>=8", "httpx>=0.28"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

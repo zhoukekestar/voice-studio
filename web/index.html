@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f6f0">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23355b48'/%3E%3Ctext x='20' y='28' text-anchor='middle' font-size='26' fill='%23fffefa'%3E声%3C/text%3E%3C/svg%3E">
+  <title>故事声音工坊 · 用你的声音，说一个故事</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="/" aria-label="故事声音工坊首页"><span class="brand-icon" aria-hidden="true">声</span><span>故事声音工坊<small>STORY VOICE STUDIO</small></span></a>
+    <nav aria-label="主导航"><button class="nav-item active" id="studio-tab" aria-selected="true">创作台</button><button class="nav-item" id="history-tab" aria-selected="false">我的音频 <span id="history-count">0</span></button></nav>
+    <span class="local-badge" id="service-badge" role="status"><i></i><span id="service-label">正在连接本地服务…</span></span>
+  </header>
+
+  <main>
+    <div class="intro"><div><p class="eyebrow">A LITTLE STORY, IN YOUR VOICE</p><h1>把故事，读成<span>你的声音。</span></h1><p class="intro-copy">留下一段熟悉的声音，让每一个故事都有你的温度。</p></div><div class="intro-art" aria-hidden="true"><div class="art-ring"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><span class="art-spark">✦</span><span class="art-dot"></span></div></div>
+
+    <div id="notice" role="alert" hidden><span id="notice-text"></span><button id="dismiss-notice" aria-label="关闭提示">×</button></div>
+
+    <section id="studio-view" aria-label="语音创作台">
+      <div class="workspace">
+        <section class="card voice-card" aria-labelledby="voice-heading">
+          <div class="card-heading"><div><span class="step">01</span><h2 id="voice-heading">录下你的声音</h2></div><span class="small-tag">建议 8–20 秒</span></div>
+          <div class="record-panel" id="record-panel">
+            <div class="record-label"><span id="record-status">一段声音，一个熟悉的你</span><span id="record-timer">00:00</span></div>
+            <canvas id="waveform" height="72" aria-label="录音波形"></canvas>
+            <button class="record-button" id="record-button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M6 10v2a6 6 0 0 0 12 0v-2M12 18v3M9 21h6"/></svg><span>开始录音</span></button>
+            <div class="upload-row">或 <label class="upload-label" for="audio-file">上传已有录音 ↗</label><input id="audio-file" type="file" accept="audio/*,.wav,.mp3,.m4a,.flac,.webm,.ogg" hidden></div>
+          </div>
+          <div id="pending-upload" hidden role="status"><span>本次录音还未保存，请保持页面打开，连接恢复后重新保存。</span><button id="retry-upload" class="text-button">重新保存录音</button></div>
+          <div id="reference-preview" hidden><div class="reference-meta"><span id="reference-name"></span><button class="text-button" id="reset-reference">重新录制</button></div><audio id="reference-player" controls preload="metadata"></audio><p class="field-note" id="reference-info"></p></div>
+          <label class="field-label" for="transcript">录音原文 <span>和你实际说的话一致</span></label>
+          <textarea id="transcript" class="transcript" maxlength="1500" placeholder="可以直接朗读这里的示例。上传已有录音后，请填写录音里实际说的话。">夜晚的小森林慢慢安静下来。小兔子抱着软软的枕头，望着窗外的月亮。晚安，月亮。晚安，树上的小鸟。明天，又会是美好的一天。</textarea>
+          <p class="field-note">可以朗读上面的示例，也可以换成你自己的话。保持平时讲故事的语气，不加背景音乐。</p>
+          <div class="privacy-note"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg>录音和故事保存在这台电脑上</div>
+        </section>
+
+        <section class="card story-card" aria-labelledby="story-heading">
+          <div class="card-heading"><div><span class="step">02</span><h2 id="story-heading">今天，讲什么故事？</h2></div><button class="text-button" id="sample-button">试试一个小故事 ↗</button></div>
+          <label class="sr-only" for="story-title">音频名称</label><input id="story-title" maxlength="80" class="title-input" placeholder="给这个故事起个名字（可选）">
+          <label class="sr-only" for="story-text">需要生成语音的文字</label><textarea id="story-text" maxlength="5000" placeholder="把想读给孩子听的文字放在这里…&#10;&#10;一段故事、一封信，或是一句晚安。"></textarea>
+          <div class="editor-bottom"><span>长故事会自动分段，再合成一份完整音频</span><span><b id="character-count">0</b> / 5000</span></div>
+          <div class="settings-row"><label for="speed">朗读速度 <output id="speed-value">1.00×</output><input type="range" id="speed" min="0.75" max="1.25" step="0.05" value="1"></label><label for="clone-mode">克隆方式<select id="clone-mode"><option value="faithful">保留录音细节 · 推荐</option><option value="timbre">仅参考音色 · VoxCPM2</option></select></label></div>
+          <details class="advanced"><summary>更多设置 <span>停顿 / 随机种子 / 生成步数</span></summary><div class="advanced-fields"><label for="pause-ms">段间停顿（毫秒）<input id="pause-ms" type="number" value="350" min="0" max="1500" step="50"></label><label for="seed">随机种子<input id="seed" type="number" value="42" min="0" max="2147483647"></label><label for="steps">扩散步数<input id="steps" type="number" value="10" min="4" max="30"></label></div><p class="field-note">速度通过生成后处理调整。扩散步数只用于 VoxCPM；同一随机种子便于对照试听。</p></details>
+          <div class="generate-row"><span id="generate-hint">先录下你的声音，再开始创作</span><button id="generate-button" class="primary-button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5Z"/></svg><span>生成故事音频</span><span aria-hidden="true">→</span></button></div>
+        </section>
+      </div>
+
+      <section class="model-section" aria-labelledby="model-heading"><div class="section-heading"><h2 id="model-heading">选择你的声音引擎</h2><span id="hardware">正在连接本地服务…</span></div><div id="model-list" class="model-list" role="radiogroup" aria-label="声音模型"></div><p class="model-footnote">用同一段录音和文字，比较哪个模型更像你。模型大小不等于克隆效果，最终以试听为准。</p></section>
+
+      <section class="card output-section" id="output-section" aria-labelledby="output-heading"><div class="card-heading"><div><span class="step">03</span><h2 id="output-heading">听听你的故事</h2></div><span class="small-tag">MP3 / WAV</span></div><div id="empty-output" class="empty-output"><span class="headphone" aria-hidden="true">♫</span><div><strong>故事正在等你的声音</strong><p>生成完成后，在这里试听和下载。</p></div></div><div id="job-progress" hidden aria-live="polite"><div class="progress-heading"><div><span class="spinner"></span><strong id="job-message"></strong></div><button id="cancel-button" class="text-button">取消任务</button></div><div class="progress-track"><div id="progress-fill"></div></div><div class="progress-meta"><span id="job-detail">首次载入模型会稍慢一些</span><span id="elapsed-time">0 秒</span></div><details id="log-details"><summary>查看运行日志</summary><pre id="job-log"></pre></details></div><div id="finished-output" hidden><div class="result-heading"><div><p class="eyebrow" id="result-model"></p><h3 id="result-title"></h3></div><div class="download-links"><a id="download-mp3" class="primary-button" download>下载 MP3 ↓</a><a id="download-wav" class="secondary-button" download>WAV ↓</a></div></div><audio id="output-player" controls preload="metadata"></audio><div class="result-stats" id="result-stats"></div><p class="field-note">想换个声音效果？保留录音和文字，选择另一个模型再生成一遍。</p></div></section>
+    </section>
+
+    <section id="history-view" hidden aria-label="我的音频"><div class="section-heading"><h2>我的音频</h2><span>所有记录都保存在本机</span></div><div id="history-list"></div></section>
+    <footer><span>一个故事，一段陪伴。</span><span>声音生成由开源模型提供 · 无订阅 · 无 API 费用</span></footer>
+  </main>
+</body>
+</html>
